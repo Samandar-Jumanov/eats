@@ -1,16 +1,20 @@
 const sendOrderBtn = document.getElementById('send-order')
 const socket = io("http://localhost:3001");
-let Id;
 
 socket.on("getId", function (id) {
-  Id = id;
-  const user = new User(Id); 
+  const user = new User(id); 
 
   sendOrderBtn.addEventListener('click', () => {
     user.sendOrder(['fries', 'hamburger'], { city: 'Tashkent' });
     console.log('Order sent ');
   });
+
+
 });
+
+socket.on('response-order', (msg)=>{
+    console.log(msg)
+})
 
 class User {
   constructor(Id) {
@@ -22,9 +26,9 @@ class User {
     let order = {
       meals: meals,
       location: location,
-      rejected: false
+      rejected: false,
+      Id : this.Id
     }
-
     this.orders.push(order);
     socket.emit("send-order", order);
   }

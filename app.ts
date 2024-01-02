@@ -4,6 +4,7 @@ import helmet from 'helmet'
 import {Socket , Server } from 'socket.io'
 import * as path from 'path'
 import  cors from 'cors'
+import OrderType from './interface'
 
 
 const app : Application = express();
@@ -27,11 +28,14 @@ app.use((req : Request , res : Response , next : NextFunction) => {
 // Socket 
 
 io.on("connection", async ( socket : Socket) =>{
-   getSocketId :   console.log(`${socket.id} connected `);
-      socket.emit('getId', socket.id)
-       socket.on('send-order', (order)=>{
+    sendUserId : socket.emit('getId', socket.id)
+
+    getOrder : socket.on('send-order', (order : OrderType)=>{
                console.log(order)
-      })
+      });
+
+     sendResponse : socket.emit("response-order", "Order is being prepared");
+
 });
 
 
