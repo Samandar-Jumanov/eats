@@ -9,7 +9,10 @@ import  cors from 'cors'
 const app : Application = express();
 const server = http.createServer(app ,);
 const io = new Server(server);
-
+app.use(cors({
+    origin : '*',
+    methods :['GET','POST', 'PUT', 'DELETE']
+}))
 
 
 
@@ -25,7 +28,10 @@ app.use((req : Request , res : Response , next : NextFunction) => {
 
 io.on("connection", async ( socket : Socket) =>{
    getSocketId :   console.log(`${socket.id} connected `);
-
+      socket.emit('getId', socket.id)
+       socket.on('send-order', (order)=>{
+               console.log(order)
+      })
 });
 
 
