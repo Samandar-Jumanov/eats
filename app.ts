@@ -29,12 +29,13 @@ app.use((req : Request , res : Response , next : NextFunction) => {
 
 io.on("connection", async ( socket : Socket) =>{
     sendUserId : socket.emit('getId', socket.id)
-
+    
     getOrder : socket.on('send-order', (order : OrderType)=>{
                console.log(order)
-      });
+      sendResponse : socket.emit("response-order", "Order is being prepared");
 
-     sendResponse : socket.emit("response-order", "Order is being prepared");
+      });
+    
 
 });
 
