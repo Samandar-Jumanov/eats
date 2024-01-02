@@ -23,13 +23,21 @@ class User {
   sendOrder(meals) {
     let order = {
       meals: meals,
-      location: this.location,
+      location: {  // Create a new object for the location
+        latitude: this.location.get('latitude'),
+        longitude: this.location.get('longitude')
+      },
       rejected: false,
       Id: this.Id
     };
 
     this.orders.push(order);
-    socket.emit("send-order", order);
+
+    if (this.orders.length !== 0) {
+      socket.emit("send-order", order);
+    }
+
+    console.log(this.location);
   }
 }
 
