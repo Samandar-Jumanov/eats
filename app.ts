@@ -40,7 +40,9 @@ io.on("connection", async ( socket : Socket) =>{
   let userInfo = {
      location ,
      Id : socket.id
-  }
+  };
+  console.log(userInfo);
+  
     sendUserInfo : socket.emit('userInfo', userInfo)
     getOrder : socket.on('send-order',  async (order : OrderType)=>{
                console.log(order)
