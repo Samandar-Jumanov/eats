@@ -29,6 +29,9 @@ class User {
     console.log(this.location);
   }
 }
+const { latitude ,  longitude } =  findLocation();
+
+socket.emit("userLocation", latitude, longitude);
 
 socket.on("userInfo", function (userInfo) {
   user = new User(userInfo.Id, userInfo.location);
@@ -39,13 +42,7 @@ socket.on('response-order', (msg) => {
 });
 
 sendOrderBtn.addEventListener('click', async () => {
-  const result = await findLocation();
-  if (result) {
-    const { latitude, longitude } = result.coords;
-    socket.emit("userLocation", latitude, longitude);
-    user.sendOrder(['fries', 'hamburger']);
-    console.log('Order sent');
-  }
+      user.sendOrder(['meals'] , user.Id , user.location)
 });
 
 async function findLocation() {

@@ -35,8 +35,8 @@ io.on("connection", async ( socket : Socket) =>{
   let location;
   getUserLocation : socket.on('userLocation' ,  async (lat : number   , long  : number )=>{
         location = await  getLocationInfo(lat , long )
-  })
-  console.log(location)
+  });
+  
   let userInfo = {
      location ,
      Id : socket.id
