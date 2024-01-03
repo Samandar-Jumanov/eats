@@ -1,17 +1,6 @@
 const sendOrderBtn = document.getElementById('send-order');
 const socket = io("http://localhost:3001");
-let Id;
-let userLocation = new Map();
-
-findLocation().then((res) => {
-  const { lat, long } = res;
-  userLocation.set('latitude', lat);
-  userLocation.set('longitude', long);
-
-  console.log(userLocation);  // Move the console.log here
-}).catch(err => {
-  console.log(err);
-});
+let user;
 
 class User {
   constructor(Id, location) {
@@ -22,14 +11,13 @@ class User {
 
   sendOrder(meals) {
     let order = {
-      Id : this.Id,
+      Id: this.Id,
       meals: meals,
-      location: {  
-        latitude: this.location.get('latitude'),
-        longitude: this.location.get('longitude')
+      location: {
+        latitude: this.location.latitude,
+        longitude: this.location.longitude
       },
-      rejected: false,
-      Id: this.Id
+      rejected: false, // Note: You have duplicate 'Id' property in your order object
     };
 
     this.orders.push(order);
@@ -42,22 +30,22 @@ class User {
   }
 }
 
-socket.on("getId", function (id) {
-  Id = id;
+socket.on("userInfo", function (userInfo) {
+  user = new User(userInfo.Id, userInfo.location);
 });
 
-socket.on("invalid-order", (msg)=>{
-  console.log(msg)
-})
-
-const user = new User(Id, userLocation);
 socket.on('response-order', (msg) => {
   console.log(msg);
 });
 
-sendOrderBtn.addEventListener('click', () => {
-  user.sendOrder(['fries', 'hamburger']);
-  console.log('Order sent');
+sendOrderBtn.addEventListener('click', async () => {
+  const result = await findLocation();
+  if (result) {
+    const { latitude, longitude } = result.coords;
+    socket.emit("userLocation", latitude, longitude);
+    user.sendOrder(['fries', 'hamburger']);
+    console.log('Order sent');
+  }
 });
 
 async function findLocation() {
@@ -70,7 +58,14 @@ async function findLocation() {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
 
-      return { lat: latitude, long: longitude };
+     
+      
+
+      return {
+        latitude: latitude,
+        longitude: longitude,
+      };
+      
     } else {
       throw new Error("Geolocation is not supported by your browser");
     }
