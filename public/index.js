@@ -22,8 +22,9 @@ class User {
 
   sendOrder(meals) {
     let order = {
+      Id : this.Id,
       meals: meals,
-      location: {  // Create a new object for the location
+      location: {  
         latitude: this.location.get('latitude'),
         longitude: this.location.get('longitude')
       },

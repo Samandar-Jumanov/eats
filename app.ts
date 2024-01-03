@@ -5,7 +5,7 @@ import {Socket , Server } from 'socket.io'
 import * as path from 'path'
 import  cors from 'cors'
 import OrderType from './interface'
-
+import Chef  from './utils/chef'
 
 const app : Application = express();
 const server = http.createServer(app ,);
@@ -28,8 +28,9 @@ app.use((req : Request , res : Response , next : NextFunction) => {
 // Socket 
 
 io.on("connection", async ( socket : Socket) =>{
+  const newChef = new Chef('Chef' , socket.id );
+  console.log(socket.id)
     sendUserId : socket.emit('getId', socket.id)
-    
     getOrder : socket.on('send-order', (order : OrderType)=>{
                console.log(order)
                if(order.location === null ){
@@ -37,9 +38,9 @@ io.on("connection", async ( socket : Socket) =>{
                } else {
                 sendResponse : socket.emit("response-order", "Order is being prepared");
                }
-
       });
 });
+
 
 
 server.listen(3001 , ()=> console.log("Server is working on 3001 ") )
