@@ -33,6 +33,7 @@ app.use((req : Request , res : Response , next : NextFunction) => {
 io.on("connection", async ( socket : Socket) =>{
   const newChef = new Chef('Chef' , socket.id );
   let location;
+
   getUserLocation : socket.on('userLocation' ,  async (lat : number   , long  : number )=>{
         location = await  getLocationInfo(lat , long )
   });
@@ -41,16 +42,10 @@ io.on("connection", async ( socket : Socket) =>{
      location ,
      Id : socket.id
   };
-  console.log(userInfo);
-  
+
     sendUserInfo : socket.emit('userInfo', userInfo)
-    getOrder : socket.on('send-order',  async (order : OrderType)=>{
-               console.log(order)
-               if(order.location === null ){
-            locationIsInvlid :    socket.emit("invalid-order", "Location is invalid ")
-               } else {
-                sendResponse : socket.emit("response-order", "Order is being prepared");
-               }
+    getOrder :     socket.on('send-order',  async (order : OrderType)=>{
+    sendResponse : socket.emit("response-order", "Order is being prepared");
       });
 });
 

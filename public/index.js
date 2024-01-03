@@ -17,38 +17,50 @@ class User {
         latitude: this.location.latitude,
         longitude: this.location.longitude
       },
-      cancelled: false, // Note: You have duplicate 'Id' property in your order object
+      cancelled : false, // Note: You have a duplicate 'Id' property in your order object
     };
 
     this.orders.push(order);
 
-    if (!this.location) {
-      console.log('No location')
-    }else {
+    if (this.location === undefined) {
+      console.log('No location');
+    } else {
       socket.emit("send-order", order);
     }
 
     console.log(this.location);
   }
-};
+}
 
-const { latitude ,  longitude } =  findLocation();
+async function init() {
+  try {
+    const location = await findLocation();
 
-socket.emit("userLocation", latitude, longitude);
+    if (location !== null) {
+      socket.emit("userLocation", location.latitude, location.longitude);
+    }
 
-socket.on("userInfo", function (userInfo) {
-  user = new User(userInfo.Id, userInfo.location);
-});
+    socket.on("userInfo", function (userInfo) {
+      user = new User(userInfo.Id, userInfo.location);
+    });
 
-socket.on('response-order', (msg) => {
-  console.log(msg);
-});
+    socket.on('response-order', (msg) => {
+      console.log(msg);
+    });
 
-sendOrderBtn.addEventListener('click', async () => {
-      user.sendOrder(['meals'] , user.Id , user.location)
-});
+    sendOrderBtn.addEventListener('click', async () => {
+      if (user) {
+        user.sendOrder(['meals']);
+      } else {
+        console.log('User not initialized');
+      }
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
+}
 
-
+init();
 
 async function findLocation() {
   try {
@@ -66,7 +78,7 @@ async function findLocation() {
           }
         );
       } else {
-        throw new Error("Geolocation is not supported by your browser");
+        reject(new Error("Geolocation is not supported by your browser"));
       }
     });
   } catch (error) {
@@ -74,4 +86,3 @@ async function findLocation() {
     return null;
   }
 }
-
