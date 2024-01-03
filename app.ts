@@ -32,11 +32,13 @@ io.on("connection", async ( socket : Socket) =>{
     
     getOrder : socket.on('send-order', (order : OrderType)=>{
                console.log(order)
-      sendResponse : socket.emit("response-order", "Order is being prepared");
+               if(order.location === null ){
+            locationIsInvlid :    socket.emit("invalid-order", "Location is invalid ")
+               } else {
+                sendResponse : socket.emit("response-order", "Order is being prepared");
+               }
 
       });
-    
-
 });
 
 

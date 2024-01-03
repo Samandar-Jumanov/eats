@@ -45,6 +45,10 @@ socket.on("getId", function (id) {
   Id = id;
 });
 
+socket.on("invalid-order", (msg)=>{
+  console.log(msg)
+})
+
 const user = new User(Id, userLocation);
 socket.on('response-order', (msg) => {
   console.log(msg);
