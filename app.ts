@@ -7,6 +7,7 @@ import  cors from 'cors'
 import OrderType from './interface'
 import Chef  from './utils/chef'
 import  morgan  from 'morgan'
+import getLocationInfo from './location'
 
 const app : Application = express();
 const server = http.createServer(app ,);
@@ -33,8 +34,9 @@ io.on("connection", async ( socket : Socket) =>{
   const newChef = new Chef('Chef' , socket.id );
   console.log(socket.id)
     sendUserId : socket.emit('getId', socket.id)
-    getOrder : socket.on('send-order', (order : OrderType)=>{
+    getOrder : socket.on('send-order',  async (order : OrderType)=>{
                console.log(order)
+               const location =  await  getLocationInfo(order.location.lattitude , order.location.longtitude )
                if(order.location === null ){
             locationIsInvlid :    socket.emit("invalid-order", "Location is invalid ")
                } else {
