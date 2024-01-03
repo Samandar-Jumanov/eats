@@ -1,7 +1,3 @@
-interface ChefType {
-    name : string ,
-    Id : string 
-}
 
 class Chef {
     public name !: string 
