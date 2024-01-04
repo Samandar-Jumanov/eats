@@ -1,0 +1,28 @@
+[
+    {
+        "Id" : 1 ,
+        "meals" : [
+            "Fries",
+            "Hambureger",
+            "Cola"
+        ]
+    },
+    {
+        "Id" : 2 ,
+        "meals" : [
+            "Plov",
+            "Samsa",
+            "Tea"
+        ]
+    },
+    {
+        "Id" : 3 ,
+         "meals" : [
+            "Manti",
+            "Tea",
+            "Sour milk"
+         ]
+    }
+]
+
+

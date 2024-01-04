@@ -1,6 +1,21 @@
+
 const sendOrderBtn = document.getElementById('send-order');
 const socket = io("http://localhost:3001");
 let user;
+let userOrder = 0 
+const order =   Math.floor(Math.random(1 , 3 ));
+
+const fetchData = async () =>{
+  await fetch('data.json').then(res =>{
+        let data = res.json();
+         console.log(data)
+  }).catch(err =>{
+    console.log(err)
+  })
+};
+
+fetchData();
+
 
 class User {
   constructor(Id, location) {
@@ -17,7 +32,7 @@ class User {
         latitude: this.location.latitude,
         longitude: this.location.longitude
       },
-      cancelled : false, // Note: You have a duplicate 'Id' property in your order object
+      cancelled : false, 
     };
 
     this.orders.push(order);
@@ -40,7 +55,7 @@ async function init() {
       socket.emit("userLocation", location.latitude, location.longitude);
     }
 
-    socket.on("userInfo", function (userInfo) {
+    socket.on("userInfo", function (userInfo) {T
       user = new User(userInfo.Id, userInfo.location);
     });
 
@@ -50,10 +65,11 @@ async function init() {
 
     sendOrderBtn.addEventListener('click', async () => {
       if (user) {
-        user.sendOrder(['meals']);
+        user.sendOrder(['meals'] , user.location);
       } else {
         console.log('User not initialized');
-      }
+      };
+      
     });
   } catch (error) {
     console.error(error.message);
