@@ -1,6 +1,4 @@
-window.onload = function () {
-  initMap();
-};
+
 
 const sendOrderBtn = document.getElementById('send-order');
 const socket = io("http://localhost:3001");
