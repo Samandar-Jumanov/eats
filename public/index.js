@@ -9,7 +9,7 @@ window.onload( async()=>{
       await findLocation();
   } catch (error) {
       console.log(error.message)
-  }
+  };
 });
 
 class User {
