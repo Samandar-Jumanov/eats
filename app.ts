@@ -1,4 +1,4 @@
-import express , {Application , Request , Response , NextFunction } from 'express'
+import express , {Application  } from 'express'
 import * as http from 'http';
 import helmet from 'helmet';
 import * as path from 'path'
@@ -9,6 +9,7 @@ import { Server } from 'socket.io';
 const app : Application = express();
 const server = http.createServer(app)
 const io = new Server(server);
+
 app.use(cors({
     origin : '*',
     methods :['GET','POST', 'PUT', 'DELETE']
@@ -22,6 +23,6 @@ app.use(express.static(path.join(__dirname , 'public')));
 
 // Socket 
 socket(io)
-server.listen(3001 , ()=> {
+server.listen(3001, ()=> {
   console.log("Server is working on 3001 ") 
 } )
