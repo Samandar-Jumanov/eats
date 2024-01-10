@@ -8,31 +8,13 @@
     <title>Eats app</title>
 </head>
 <body>
+
     <h1>Eats app using TypeScript and Express</h1>
 
     <div id="map" style="height: 400px;"></div>
     <button id="send-order">Send order</button>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="index.js"></script>
-
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
-            type="text/javascript"></script>
-
-    <script>
-        window.onload = () => {
-            const map = new google.maps.Map(document.getElementById('map'), {
-                center: { lat: 37.7749, lng: -122.4194 },
-                zoom: 12,
-            });
-
-            const marker = new google.maps.Marker({
-                position: { lat: 37.7749, lng: -122.4194 },
-                map: map,
-                title: 'Hello World!',
-            });
-        };
-    </script>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="index.js"></script>
 </body>
 </html>

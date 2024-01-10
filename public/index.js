@@ -1,22 +1,16 @@
-
-
 const sendOrderBtn = document.getElementById('send-order');
 const socket = io("http://localhost:3001");
 let user;
 let userOrder = 0 
-const order =   Math.floor(Math.random(1 , 3 ));
 
-const fetchData = async () =>{
-  await fetch('data.json').then(res =>{
-        let data = res.json();
-         console.log(data)
-  }).catch(err =>{
-    console.log(err)
-  })
-};
 
-fetchData();
-
+window.onload( async()=>{
+  try {
+      await findLocation();
+  } catch (error) {
+      console.log(error.message)
+  }
+});
 
 class User {
   constructor(Id, location) {
@@ -45,12 +39,21 @@ class User {
     }
 
     console.log(this.location);
+  };
+};
+
+(async function checkLocation(){
+  const location = await findLocation();
+
+  if(location === null ){
+      setInterval(()=>{
+        console.log("Location is not clear yet ")
+      } , 1000)
   }
-}
+})()
 
 async function init() {
   try {
-    const location = await findLocation();
 
     if (location !== null) {
       socket.emit("userLocation", location.latitude, location.longitude);
