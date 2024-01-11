@@ -54,7 +54,6 @@ imap.once('ready', async () => {
           console.log('No more tasks');
         });
       };
-  
      
       setInterval(fetchEmails, 1000); // 1 second
     });
