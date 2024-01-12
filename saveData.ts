@@ -36,12 +36,14 @@ setInterval( async ()=>{
 
 (async function subscribe() : Promise<void> {
     // subscribe user with only emails 
-    
+
         await redisClient.subscribe('emails' , ()=>{
                 console.log("Subsribed")
         })
 })();
 
+
+export default hashData
 
 
 
