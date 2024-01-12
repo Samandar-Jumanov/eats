@@ -1,5 +1,3 @@
-import Data from "./interface";
-
 class DataHash{
     private  data !:string[][];
     constructor(size= 53 ){
@@ -10,9 +8,7 @@ class DataHash{
      let idx = this.#hash(key);
      let newData = [key , value ]
      this.data[idx].push(newData)
-    
    }
-
     #hash(key : string ){
        let  total = 0
        const prime = 17 // reduce collisions 
