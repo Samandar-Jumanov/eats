@@ -1,8 +1,11 @@
 import { config } from 'dotenv';
 import Imap from 'node-imap';
 import { promisify } from 'util';
+import DataHash from './hash-data';
 
 config();
+
+const hash = new DataHash();
 
 const email = process.env.EMAIL || '';
 const password = process.env.EMAIL_PASSWORD || '';
@@ -19,7 +22,6 @@ const imap = new Imap({
 
 const connectAsync = promisify(imap.connect.bind(imap));
 const openBoxAsync = promisify(imap.openBox.bind(imap));
-const fetchAsync = promisify(imap.seq.fetch.bind(imap));
 
 async function connectImap() {
   try {
@@ -41,11 +43,12 @@ async function openBox() {
 }
 
 async function fetchEmails() {
-  return new Promise<string>((resolve, reject) => {
+  return new Promise<string[]>((resolve, reject) => {
     const fetchOptions = { bodies: ['HEADER.FIELDS (FROM TO SUBJECT DATE)'] };
     const fetch = imap.seq.fetch('1:*', fetchOptions);
 
     fetch.on('message', (msg, seqno) => {
+      let seq = seqno
       console.log(`Message seqno #${seqno}`);
 
       msg.on('body', (stream, info) => {
@@ -53,9 +56,10 @@ async function fetchEmails() {
         stream.on('data', (chunk) => {
           buffer += chunk.toString('utf8');
         });
-
+        let data : string[]= [(msg.headers['from'] || [''])[0] , buffer  ]
+ 
         stream.on('end', () => {
-          resolve(buffer);
+          resolve(data);
         });
       });
     });
@@ -66,16 +70,17 @@ async function fetchEmails() {
   });
 }
 
-async function main() {
+async function init() {
   try {
     await connectImap();
     console.log('Imap connected');
 
     await openBox();
 
-    const result = await fetchEmails();
-    console.log(result);
-    
+    const result : string[] = await fetchEmails();
+    hash.saveData(result[0], result[1])
+    console.log(hash);
+
   } catch (error  ) {
     console.error(`Error: ${error.message}`);
   } finally {
@@ -83,4 +88,4 @@ async function main() {
   }
 }
 
-main();
+init();

@@ -1,13 +1,15 @@
-class TreeHash{
-     data !: string[][];
-    constructor(){
-        this.data = [];
+import Data from "./interface";
+
+class DataHash{
+    private  data !:string[][];
+    constructor(size= 53 ){
+        this.data  = new Array(size).fill(null)
     }
 
     saveData(key : string , value : string  ){
      let idx = this.#hash(key);
-      this.data[idx].push([key , value] )
-    
+     let newData = [key , value ]
+     this.data[idx].push(newData)
     
    }
 
@@ -22,3 +24,6 @@ class TreeHash{
        return total;
     }
 }
+
+
+export default DataHash
