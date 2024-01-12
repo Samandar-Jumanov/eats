@@ -27,14 +27,22 @@ async function ifExists() : Promise<boolean>{
            addQueue('emails')
            return 
      } 
-})()
+})();
+
 
 async function readFromDb() : Promise<string[]>  {
       // set data with key to database as an adjancency list 
       const redisData = await brpopAsync('emails', 0);
+      console.log(redisData);
       return redisData 
-     
 };
+
+setInterval(()=>{
+      readFromDb()
+} , 1000);
+
+
+
 
 
 
