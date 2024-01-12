@@ -24,3 +24,4 @@ async function initRedis(){
 
 initRedis();
 
+export default redisClient
