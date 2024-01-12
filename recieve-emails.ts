@@ -1,11 +1,9 @@
 import { config } from 'dotenv';
 import Imap from 'node-imap';
 import { promisify } from 'util';
-import DataHash from './hash-data';
 
 config();
 
-const hash = new DataHash();
 
 const email = process.env.EMAIL || '';
 const password = process.env.EMAIL_PASSWORD || '';
@@ -32,7 +30,10 @@ async function connectImap() {
     throw err;
   }
 }
+connectImap();
 
+
+(
 async function openBox() {
   try {
     await openBoxAsync('INBOX');
@@ -40,7 +41,7 @@ async function openBox() {
     console.error(`Error opening mailbox: ${err.message}`);
     throw err;
   }
-}
+})()
 
 async function fetchEmails() {
   return new Promise<string[]>((resolve, reject) => {
@@ -70,17 +71,13 @@ async function fetchEmails() {
   });
 }
 
+
+
 async function init() {
   try {
-    await connectImap();
-    console.log('Imap connected');
-
-    await openBox();
 
     const result : string[] = await fetchEmails();
-    hash.saveData(result[0], result[1])
-    console.log(hash);
-
+    return result 
   } catch (error  ) {
     console.error(`Error: ${error.message}`);
   } finally {
@@ -88,4 +85,5 @@ async function init() {
   }
 }
 
-init();
+export default init
+

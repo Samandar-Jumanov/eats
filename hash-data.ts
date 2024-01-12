@@ -1,13 +1,17 @@
 class DataHash{
-    private  data !:string[][];
-    constructor(size= 53 ){
-        this.data  = new Array(size).fill(null)
+    private  data !:string[][]
+    constructor( ){
+        this.data  = []
     }
 
     saveData(key : string , value : string  ){
      let idx = this.#hash(key);
-     let newData = [key , value ]
-     this.data[idx].push(newData)
+     let newData : string[] = [key , value ]
+     while(this.data[idx] === null){
+          idx += 1 ;
+     };
+     this.data[idx] = newData;
+     return  true 
    }
     #hash(key : string ){
        let  total = 0
@@ -18,6 +22,12 @@ class DataHash{
        }
 
        return total;
+    }
+
+    search(key : string ){
+       let  idx = this.#hash(key);
+       if(!this.data[idx])  return false 
+       return true
     }
 }
 
