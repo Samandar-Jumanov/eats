@@ -21,10 +21,9 @@ const imap = new Imap({
 const connectAsync = promisify(imap.connect.bind(imap));
 const openBoxAsync = promisify(imap.openBox.bind(imap));
 
-async function connectImap() {
+async function connectImap() : Promise<void> {
   try {
     await connectAsync();
-    console.log('Imap connected');
   } catch (err  ) {
     console.error(`Error connecting to IMAP: ${err.message}`);
     throw err;
@@ -34,7 +33,7 @@ connectImap();
 
 
 (
-async function openBox() {
+async function openBox() : Promise<void> {
   try {
     await openBoxAsync('INBOX');
   } catch (err  ) {
@@ -78,7 +77,7 @@ async function init() {
 
     const result : string[] = await fetchEmails();
     return result 
-  } catch (error  ) {
+  } catch (error : any   ) {
     console.error(`Error: ${error.message}`);
   } finally {
     imap.end();

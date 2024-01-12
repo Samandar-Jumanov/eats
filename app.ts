@@ -6,6 +6,7 @@ import  cors from 'cors'
 import  morgan  from 'morgan'
 import socket from './socket';
 import { Server } from 'socket.io';
+
 const app : Application = express();
 const server = http.createServer(app)
 const io = new Server(server);
@@ -22,7 +23,10 @@ app.use(express.static(path.join(__dirname , 'public')));
 
 
 // Socket 
-socket(io)
+socket(io);
+
+
+
 server.listen(3001, ()=> {
   console.log("Server is working on 3001 ") 
 } )

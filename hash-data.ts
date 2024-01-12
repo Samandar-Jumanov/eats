@@ -1,18 +1,25 @@
 class DataHash{
-    private  data !:string[][]
+    public  data !:string[][]
     constructor( ){
-        this.data  = []
+        this.data  = [];
     }
 
     saveData(key : string , value : string  ){
      let idx = this.#hash(key);
-     let newData : string[] = [key , value ]
-     while(this.data[idx] === null){
-          idx += 1 ;
-     };
-     this.data[idx] = newData;
+     let newData : string[] = [key , value ];
+      
+       if(this.data[idx] !== null){
+        
+        while(this.data[idx] === null){
+            idx += 1 ;
+         };
+    }
+
+      this.data[idx] = newData;
      return  true 
    }
+
+
     #hash(key : string ){
        let  total = 0
        const prime = 17 // reduce collisions 
@@ -29,7 +36,7 @@ class DataHash{
        if(!this.data[idx])  return false 
        return true
     }
-}
+};
 
 
-export default DataHash
+export default DataHash;
