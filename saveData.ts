@@ -28,10 +28,6 @@ async function saveData() : Promise<void | null> {
 }
 
 
-setInterval( async ()=>{
-       await saveData()
-} , 1000);
-
 
 
 export default hashData

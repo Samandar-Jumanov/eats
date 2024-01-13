@@ -1,22 +1,24 @@
-import { config } from 'dotenv';
+import * as dotenv from 'dotenv';
 import Imap from 'node-imap';
 import { simpleParser } from 'mailparser';
 import { promisify } from 'util';
 
-config();
+dotenv.config();
 
-const email : string  = String( process.env.EMAIL )
-const password : string  = String(process.env.EMAIL_PASSWORD )
-const host : string  =  String(process.env.EMAIL_HOST )
-const port  : number = Number(process.env.PORT) 
+const email: string = String(process.env.EMAIL);
+const password: string = String(process.env.EMAIL_PASSWORD);
+const host: string = String(process.env.EMAIL_HOST);
+const port: number = Number(process.env.EMAIL_PORT);
 
 const imap = new Imap({
   user: email,
   password: password,
   host: host,
-  port: port,
-  tls: true,
+  port: port, // Use the dynamic port variable
+  // tls: true,
 });
+
+console.log(`${email} ${password} ${host} ${port}`);
 
 const connectAsync = promisify(imap.connect.bind(imap));
 const openBoxAsync = promisify(imap.openBox.bind(imap));
@@ -24,25 +26,27 @@ const openBoxAsync = promisify(imap.openBox.bind(imap));
 async function connectImap(): Promise<void> {
   try {
     await connectAsync();
+    console.log('Connected Imap ......');
   } catch (err: any) {
     console.error(`Error connecting to IMAP: ${err.message}`);
     throw err;
   }
 }
-connectImap();
 
-(async function openBox(): Promise<void> {
+
+async function openBox(): Promise<void> {
   try {
     await openBoxAsync('INBOX');
   } catch (err: any) {
     console.error(`Error opening mailbox: ${err.message}`);
     throw err;
   }
-})();
+}
 
 async function fetchEmails() {
   return new Promise<string[]>((resolve, reject) => {
     const fetch = imap.seq.fetch('1:*', { bodies: [''] });
+
     fetch.on('message', (msg, seqno) => {
       let seq = seqno;
       console.log(`Message seqno #${seq}`);
@@ -66,18 +70,18 @@ async function fetchEmails() {
     });
 
     fetch.once('error', (err) => {
+      console.error(err.message);
       reject(err);
     });
-
   });
 }
 
-async function init(): Promise<string[]> {
+async function init() {
   try {
     const result: string[] = await fetchEmails();
     return result;
   } catch (error: any) {
-    throw new Error(error.message);
+    console.error(error.message);
   }
 }
 
