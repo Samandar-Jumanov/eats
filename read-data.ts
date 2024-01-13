@@ -37,9 +37,7 @@ async function readFromDb() : Promise<string[]>  {
       return redisData 
 };
 
-setInterval(()=>{
-      readFromDb()
-} , 1000);
+
 
 
 

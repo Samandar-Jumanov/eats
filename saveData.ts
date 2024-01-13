@@ -1,6 +1,5 @@
 import DataHash from "./hash-data";
 import init from "./recieve-emails";
-import redisClient from "./utils/connectRedis";
 
 const hashData = new DataHash();
 
@@ -33,14 +32,6 @@ setInterval( async ()=>{
        await saveData()
 } , 1000);
 
-
-(async function subscribe() : Promise<void> {
-    // subscribe user with only emails 
-
-        await redisClient.subscribe('emails' , ()=>{
-                console.log("Subsribed")
-        })
-})();
 
 
 export default hashData

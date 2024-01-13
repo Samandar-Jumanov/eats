@@ -35,7 +35,16 @@ class DataHash{
        let  idx = this.#hash(key);
        if(!this.data[idx])  return false 
        return true
+    };
+     
+    compareData(redisData : string[]){
+            if(this.data.length > redisData.length ){
+                   
+            };
+
     }
+
+
 };
 
 
