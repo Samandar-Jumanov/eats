@@ -1,7 +1,6 @@
-import express , {Application  } from 'express'
+import express , {Application  , Request , Response  } from 'express'
 import * as http from 'http';
 import helmet from 'helmet';
-import * as path from 'path'
 import  cors from 'cors'
 import  morgan  from 'morgan'
 import socket from './socket';
@@ -12,6 +11,8 @@ import init from "./recieve-emails";
 
 const app : Application = express();
 const server = http.createServer(app)
+app.use(express.json());
+
 const io = new Server(server);
 
 const hashData = new DataHash();
@@ -28,9 +29,15 @@ async function checkData() {
       }
   }
 
-  // return null;
+    return hashData.data;
 }
 
+  const res = init();
+  res.then(res =>{
+       console.log(res)
+  }).catch(err =>{
+         console.log(err?.message)
+  })
 
 
 
@@ -41,9 +48,16 @@ app.use(cors({
 
 
 app.use(helmet());
-app.use(morgan('dev'))
-app.use(express.static(path.join(__dirname , 'public')));
+app.use(morgan('dev'));
 
+checkData()
+app.get('/', async ( request  : Request , response : Response  )=>{
+     
+          const data =  hashData.data 
+            response.json({
+              data 
+        })
+})
 
 // Socket 
 socket(io);
@@ -54,6 +68,8 @@ server.listen(3001, ()=> {
 } )
 
 
-setInterval( async ()=>{
-  await checkData()
-} , 1000);
+// setInterval( async ()=>{
+//   await checkData();
+    
+// } , 1000);
+

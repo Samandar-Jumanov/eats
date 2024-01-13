@@ -37,11 +37,7 @@ class DataHash{
        return true
     };
      
-    compareData(redisData : string[]){
-            if(this.data.length > redisData.length ){
-            };
-
-    }
+    
 
 };
 
