@@ -5,10 +5,10 @@ import { promisify } from 'util';
 
 config();
 
-const email = process.env.EMAIL || '';
-const password = process.env.EMAIL_PASSWORD || '';
-const host = process.env.EMAIL_HOST || '';
-const port = Number(process.env.PORT) || 993;
+const email : string  = String( process.env.EMAIL )
+const password : string  = String(process.env.EMAIL_PASSWORD )
+const host : string  =  String(process.env.EMAIL_HOST )
+const port  : number = Number(process.env.PORT) 
 
 const imap = new Imap({
   user: email,

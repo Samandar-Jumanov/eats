@@ -29,7 +29,7 @@ class DataHash{
        }
 
        return total;
-    }
+    };
 
     search(key : string ){
        let  idx = this.#hash(key);
@@ -39,11 +39,9 @@ class DataHash{
      
     compareData(redisData : string[]){
             if(this.data.length > redisData.length ){
-                   
             };
 
     }
-
 
 };
 

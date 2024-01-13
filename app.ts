@@ -6,6 +6,7 @@ import  cors from 'cors'
 import  morgan  from 'morgan'
 import socket from './socket';
 import { Server } from 'socket.io';
+import init from './recieve-emails';
 
 const app : Application = express();
 const server = http.createServer(app)
@@ -26,7 +27,7 @@ app.use(express.static(path.join(__dirname , 'public')));
 socket(io);
 
 
-
+init()
 server.listen(3001, ()=> {
   console.log("Server is working on 3001 ") 
 } )
