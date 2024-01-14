@@ -1,41 +1,27 @@
 {
+  "name": "email-todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "@types/axios": "^0.14.0",
-    "@types/cors": "^2.8.17",
-    "@types/dotenv": "^8.2.0",
-    "@types/mailparser": "^3.4.4",
+    "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",
-    "axios": "^1.6.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "helmet": "^7.1.0",
-    "inbox": "^1.1.59",
-    "mailparser": "^3.6.6",
     "morgan": "^1.10.0",
-    "node-imap": "^0.9.6",
-    "node-mailin": "^2.5.0",
     "nodemon": "^3.0.2",
     "redis": "^4.6.12",
-    "socket.io": "^4.7.2"
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
-    "@types/express": "^4.17.21",
-    "@types/node-imap": "^0.9.3",
-    "@types/redis": "^4.0.11",
-    "@types/socket.io": "^3.0.2",
-    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
-  },
-  "name": "email-todo",
-  "description": "",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }
