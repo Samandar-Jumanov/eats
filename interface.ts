@@ -1,3 +1,0 @@
-interface Data {
-    data : string[][]
-}

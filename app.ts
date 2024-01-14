@@ -4,15 +4,22 @@ import helmet from 'helmet';
 import  cors from 'cors'
 import  morgan  from 'morgan'
 import socket from './socket';
+// import { Mailin } from 'node-mailin'
 import { Server } from 'socket.io';
-// import { fetchEmails} from './recieve-emails'
+import recieveEmails from './recieve-emails';
 const app : Application = express();
+
 const server = http.createServer(app)
 app.use(express.json());
 
 const io = new Server(server);
 
-// init();
+// Mailin.start({
+//    port: 25,
+//    disableWebhook: true,
+//   logLevel :'info'
+// });
+
 
 
 app.use(cors({
@@ -24,11 +31,9 @@ app.use(cors({
 app.use(helmet());
 app.use(morgan('dev'));
 
-// Socket 
 socket(io);
 
-// fetchEmails()
-
+recieveEmails();
 
 server.listen(3001, ()=> {
   console.log("Server is working on 3001 ") 
