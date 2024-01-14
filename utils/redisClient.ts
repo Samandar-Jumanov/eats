@@ -1,16 +1,26 @@
-import { createClient } from 'redis';
+import  {RedisClientOptions , createClient} from 'redis';
 import { config } from 'dotenv';
+
 config(); // config dotenv
 
-const redisUrl: string = String(process.env.REDIS_URL);
-const redisClient = createClient(redisUrl);
+const redisUrl = process.env.REDIS_URL;
+const redisClientOps  : RedisClientOptions = { 
+  url:redisUrl
+}
+const redisClient =  createClient(redisClientOps);
 
-async function connectRedis() {
-  try {
-    await redisClient.connect();
-  } catch (error: any) {
-    throw new Error(error.message);
-  }
+function connectRedis() {
+  return new Promise<void>((resolve, reject) => {
+    redisClient.on('connect', () => {
+      console.log('Connected to Redis');
+      resolve();
+    });
+
+    redisClient.on('error', (err) => {
+      console.error('Redis connection error:', err);
+      reject(err);
+    });
+  });
 }
 
 export default connectRedis;
