@@ -14,7 +14,6 @@ class  HashData {
                 }
                 this.data[idx] = data 
         }
-
         return true 
       }
 
