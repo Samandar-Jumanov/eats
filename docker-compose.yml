@@ -10,5 +10,6 @@ services:
     volumes:
       - './:/app'
       - './:/node_modules'
+    tty : true 
     
     
