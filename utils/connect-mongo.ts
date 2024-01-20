@@ -3,7 +3,7 @@ import { config } from 'dotenv';
 
 config();
 
-const connectionUrl  : string = String(process.env.MONGO_URL)
+const connectionUrl  : string = String(process.env.MONGO_URL) 
 async function mongoDBConnection() {
     try {
         await connect(connectionUrl , {

@@ -8,7 +8,6 @@ export const sockerServer = (io : Server ) =>{
         console.log(socket.id);
         socket.emit('me' , socket.id);
  
- 
         socket.on('disconnect' , () =>{
             socket.broadcast.emit("call-ended")
         });
