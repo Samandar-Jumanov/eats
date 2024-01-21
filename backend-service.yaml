@@ -1,14 +1,14 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: backend
-  namespace: default
-  labels:
+apiVersion: v1  # versioning for services 
+kind: Service  # define what kind is it 
+metadata:  # metadata for service 
+  name: backend # name for service 
+  namespace: default # namespace for servic 
+  labels:  # labels for matching a container 
     app: video-chat-app
     tier: backend
-spec:
-  ports:
+spec:  # specification fpr service 
+  ports:  #port for service 
   - protocol: 'TCP'
     port: 3001
     targetPort: 3001
-  type: LoadBalancer
+  type: LoadBalancer   # type for service 

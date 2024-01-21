@@ -1,30 +1,31 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
+apiVersion: apps/v1 # apiVersion for defining version 
+kind: Deployment  # what type 
+metadata:  # metadata for name 
   name: video-chat-app
   namespace: default  
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: video-chat-app
-      tier: backend
-  template:
-    metadata:
-      labels:
-        app: video-chat-app
+spec:  # for deployment specifiacton 
+  replicas: 1 # define how many replicaes (pods can be used )
+  selector: # selector to match deployment and container 
+    matchLabels: # ue match labes to find a match for them
+      app: video-chat-app # app should be equal to vieo-chat-app in containers 
+      tier: backend # we can add tier if we want 
+
+  template:  # template for containers 
+    metadata: # metadata  labels, app ...etc )
+      labels: # to be matched for selectors in deployment
+        app: video-chat-app 
         tier: backend
-    spec:
-      containers:
+    spec:  # sepicfication for containers 
+      containers:  # container should be list and defined as - name 
       - name: video-chat-container
-        image: samandarjumanov0405/video-chat-app
-        livenessProbe:
-          httpGet:
+        image: samandarjumanov0405/video-chat-app  # image for container 
+        livenessProbe:  # livness probe 
+          httpGet:  # httpGet path for get or(send request in certain amount of time )
             path : /
-            port : 3001 
-          periodSeconds : 3
-          initialDelaySeconds : 10 
+            port : 3001  # port for containe r
+          periodSeconds : 3  # in each second it should be checked 
+          initialDelaySeconds : 10  # delay seconds 
         
 
 
-      
+    
