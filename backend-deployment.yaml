@@ -18,3 +18,13 @@ spec:
       containers:
       - name: video-chat-container
         image: samandarjumanov0405/video-chat-app
+        livenessProbe:
+          httpGet:
+            path : /
+            port : 3001 
+          periodSeconds : 3
+          initialDelaySeconds : 10 
+        
+
+
+      
