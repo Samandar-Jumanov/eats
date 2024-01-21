@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: video-chat-app
+  namespace: default  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: video-chat-app
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: video-chat-app
+        tier: backend
+    spec:
+      containers:
+      - name: video-chat-container
+        image: samandarjumanov0405/video-chat-app
