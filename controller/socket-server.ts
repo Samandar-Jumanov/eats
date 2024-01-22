@@ -1,21 +1,38 @@
 import { Socket , Server } from 'socket.io'
-import RoomType from '../interface';
 import Room from '../controller/room'
 
 export const sockerServer = (io : Server ) =>{
-    let newRoom;
+    const room = new Room();
 
     io.on('connection' , (socket : Socket ) =>{
         console.log(socket.id);
 
 
-        socket.on("create-room" , ( data : RoomType )=>{
-             newRoom = new Room(socket.id , data.admin , data.roomName )
-        }) 
+        socket.on("create-room" , ( data  )=>{
+               room.createRoom( socket.id , data.adminName , data.roomName )
+        });
+
+        socket.emit("rooms-available" , room.rooms);
+
+        socket.on("join-room" , ( data ) =>{
+            const message = `${data.userName } wants to join your room yes/no`
+            socket.emit('send-offer' , message );
+        });
+
+        socket.on('offer' , ( answer : string , data  ) =>{
+                if(answer === 'yes'){
+                    room.joinToRoom( data.roomName, data.userName );
+                }else {
+                    socket.emit('fail' ,  `${data.roomName} refused`);
+                }
+        });
+
 
         socket.on('disconnect' , () =>{
               console.log(`${socket.id} is disconnected `);
-        })
+        });
+
+
  });
  
 }

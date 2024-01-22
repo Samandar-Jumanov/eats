@@ -1,8 +1,9 @@
 interface RoomType {
-    users : []
+    users : string[]
     adminId : string
     admin : string
     roomName : string 
+    usersCount : number 
 };
 
 
