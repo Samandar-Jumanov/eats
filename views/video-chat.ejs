@@ -12,16 +12,18 @@
         <div class="video-players">
             <!-- User 1 -->
             <div class="video-player" id="user-1">
-                <video playsInline="playsInline" autoplay="autoplay"></video>
+                <video autoplay muted playsinline id="localVideo"></video>
             </div>
             
             <!-- User 2 -->
             <div class="video-player" id="user-2">
-                <video playsInline="playsInline" autoplay="autoplay"></video>
+                <video  autoplay muted playsinline id="remoteVideo"></video>
             </div>
         </div>
+
         <button class="skip-btn">Skip this ...</button>
+        
+        <script src="js/video.js"></script>
     </div>
-    
 </body>
 </html>
