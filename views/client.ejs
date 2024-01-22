@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Video chat</title>
+</head>
+<body>
+
+    <form id="form" onsubmit="return callUser()">
+        <label for="userToCall">Enter ID to call:</label>
+        <input type="text" id="userToCall" required />
+        <button type="submit">Call</button>
+    </form>
+
+    <video id="myVideo" autoplay muted></video>
+    <video id="userVideo" autoplay></video>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/peerjs/peerjs.js"></script>
+    <script>
+        const socket = io();
+
+        let peer = new Peer();
+
+        peer.on('open', (id) => {
+            console.log('My peer ID is: ' + id);
+            socket.emit('join-room', id);
+        });
+
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then((stream) => {
+                const myVideo = document.getElementById('myVideo');
+                myVideo.srcObject = stream;
+
+                peer.on('call', (call) => {
+                    call.answer(stream);
+                    const userVideo = document.getElementById('userVideo');
+                    call.on('stream', (userStream) => {
+                        userVideo.srcObject = userStream;
+                    });
+                });
+
+                socket.on('call-user', (data) => {
+                    const { signal, from } = data;
+                    const call = peer.call(from, stream);
+                    const userVideo = document.getElementById('userVideo');
+                    call.on('stream', (userStream) => {
+                        userVideo.srcObject = userStream;
+                    });
+
+                    call.answer(signal);
+                });
+            })
+            .catch((error) => {
+                console.error('Error accessing media devices:', error);
+            });
+
+        function callUser() {
+            const userToCall = document.getElementById('userToCall').value;
+            const call = peer.call(userToCall);
+            const myVideo = document.getElementById('myVideo');
+            call.on('stream', (userStream) => {
+                const userVideo = document.getElementById('userVideo');
+                userVideo.srcObject = userStream;
+            });
+
+            socket.emit('call-user', {
+                userToCall,
+                signalData: call.metadata,
+                name: peer.id,
+            });
+
+            return false; // Prevent form submission
+        }
+    </script>
+</body>
+</html>
