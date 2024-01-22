@@ -1,10 +1,9 @@
-interface CallUserData {
-    userToCall : string ,
-    signalData : string ,
-    from : string ,
-    name : string 
+interface RoomType {
+    users : []
+    adminId : string
+    admin : string
+    roomName : string 
 };
 
 
-
-export default CallUserData
+export default  RoomType 

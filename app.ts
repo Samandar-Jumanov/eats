@@ -4,8 +4,7 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import mongoDBConnection from './utils/connect-mongo';
 import { sockerServer } from './controller/socket-server';
-import path from 'path';
-
+import  { ExpressPeerServer } from 'peer'
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -15,6 +14,8 @@ const io = new Server(server, {
     credentials: true,
   },
 });
+
+const peerServer = ExpressPeerServer(server);
 
 app.use(cors({
   origin: '*',
@@ -29,8 +30,10 @@ app.set('view engine' , 'ejs');
 app.get('/' , (request , response ) =>{
     response.render('index')
 });
-app.get('/video-chat' , ( reuqest , response ) =>{
-     response.render('video-chat');
+
+
+app.get('/create-room' , (request , response ) =>{
+    response.render('room-create')
 });
 
 mongoDBConnection();
