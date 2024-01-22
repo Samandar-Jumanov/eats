@@ -11,7 +11,7 @@ body {
 }
 
 h1 {
-    color: #00ffcc; /* Set your desired color */
+    color: #00ffcc; 
 }
 
 .button-container {
@@ -21,7 +21,7 @@ h1 {
 button {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #3399ff; /* Set your desired color */
+    background-color: #3399ff; 
     color: white;
     border: none;
     cursor: pointer;
@@ -29,11 +29,10 @@ button {
 }
 
 button:hover {
-    background-color: #0066cc; /* Set your desired color on hover */
+    background-color: #0066cc; 
 }
 
 @media screen and (max-width: 600px) {
-    /* Adjust styles for smaller screens */
     button {
         font-size: 14px;
     }
