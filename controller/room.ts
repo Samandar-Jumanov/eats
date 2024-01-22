@@ -26,6 +26,27 @@ class Room {
 
     }
 
+
+    leaveRoom(roomname : string  , userName : string  ){
+          const room  : any  = this.rooms.find(room => room.roomName === roomname);
+
+          if(room.usersCount >1 ){
+             const index = room.users.indexOf(userName);
+
+            if(index > -1 && userName !== room.adminName){
+                room.users.splice(index, 1);
+                room.usersCount--;
+            }else {
+                 this.deleteRoom(roomname)
+            }
+          };
+         
+    }
+
+    deleteRoom(roomName: any ){
+         delete this.rooms[roomName]
+    }
+
 }
 
 export default Room 

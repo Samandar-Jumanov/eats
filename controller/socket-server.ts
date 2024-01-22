@@ -16,17 +16,20 @@ export const sockerServer = (io : Server ) =>{
 
         socket.on("join-room" , ( data ) =>{
             const message = `${data.userName } wants to join your room yes/no`
-            socket.emit('send-offer' , message );
+            socket.emit('get-offer' , message );
         });
 
-        socket.on('offer' , ( answer : string , data  ) =>{
+        socket.on('offer' , ( answer : string ,  data  ) =>{
                 if(answer === 'yes'){
                     room.joinToRoom( data.roomName, data.userName );
                 }else {
                     socket.emit('fail' ,  `${data.roomName} refused`);
                 }
         });
-
+        
+        socket.emit('leave-room', ( data : [{}] ) =>{
+            
+        });
 
         socket.on('disconnect' , () =>{
               console.log(`${socket.id} is disconnected `);
