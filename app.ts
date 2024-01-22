@@ -4,8 +4,7 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import mongoDBConnection from './utils/connect-mongo';
 import { sockerServer } from './controller/socket-server';
-// import path from 'path';
-// import { ExpressPeerServer } from 'peer';
+import path from 'path';
 
 const app = express();
 const server = http.createServer(app);
@@ -17,9 +16,6 @@ const io = new Server(server, {
   },
 });
 
-
-
-
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -27,15 +23,11 @@ app.use(cors({
 }));
 
 
-
-
-// MongoDB and Socket.io setup
+app.use('/' , express.static(path.join(__dirname , 'views')))
 mongoDBConnection();
 sockerServer(io);
 
-app.get('/', (req, res) => {
-  res.render('client');
-});
+
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {
