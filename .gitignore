@@ -2,6 +2,7 @@ node_modules
 *.pem
 .env 
 .dockerignore 
+package-lock.json 
 
 
 
