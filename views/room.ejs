@@ -39,6 +39,12 @@
             }
         };
 
+
+        socket.on('get-offer' , ( message) =>{
+              const response =  confirm("Accept the user ");
+              socket.emit("answer" , response)
+        })
+
     </script>
 </body>
 </html>

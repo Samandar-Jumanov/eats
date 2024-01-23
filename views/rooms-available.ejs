@@ -37,6 +37,7 @@
         }
 
         const joinRoom = (roomName) => {
+            socket.emit('ask', 'One user wants to join to: ' , roomName );
             const userName = prompt('Enter your username:');
             if (userName) {
                 socket.emit('join-room', { userName, roomName });
