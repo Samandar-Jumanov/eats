@@ -24,7 +24,7 @@
         socket.on('room-info', (roomInfo) => {
             const roomInfoDiv = document.getElementById('roomInfo');
             roomInfoDiv.innerHTML = `<p>Admin: ${roomInfo.admin}</p>`;
-            roomInfoDiv.innerHTML += `<p>Users count: ${roomInfo.usersCount}</p>`; 
+            roomInfoDiv.innerHTML += `<p>Users count: ${roomInfo.users.length}</p>`; 
             roomUsers = roomInfo.users;
             updateUsersList();
         });
