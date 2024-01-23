@@ -2,7 +2,7 @@ import { Socket , Server } from 'socket.io'
 import Room from '../controller/room'
 import RoomType from '../interface';
 
-export const sockerServer = (io : Server ) =>{
+export const sockerServer = (io : Server ) => {
     const room = new Room();
 
     io.on('connection' , (socket : Socket ) =>{
