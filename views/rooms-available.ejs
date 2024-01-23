@@ -40,11 +40,10 @@
             const userName = prompt('Enter your username:');
             if (userName) {
                 socket.emit('join-room', { userName, roomName });
+                window.location.assign(`room/${roomName}`);
             } else {
                 alert('Please enter a valid username.');
             }
-            window.location.reload();
-            
         };
     </script>
 </body>

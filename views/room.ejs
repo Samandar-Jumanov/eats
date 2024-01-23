@@ -30,8 +30,9 @@
             // Display each room user on the HTML page
             roomUsers.forEach((user) => {
                 const userElement = document.createElement('p');
-                userElement.textContent = `User: ${user}`;
+                userElement.textContent = `Users: ${user}`;
                 roomInfoDiv.appendChild(userElement);
+                console.log(user);
             });
         });
 

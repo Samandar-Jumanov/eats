@@ -40,9 +40,9 @@ app.get('/available-rooms' , (request , response ) =>{
       response.render('rooms-available')
 });
 
-app.get('/:adminName/:roomName', (request, response) => {
-  const { adminName, roomName } = request.params;
-  response.render('room', { adminName, roomName }); 
+app.get('/room/:roomName', (request, response) => {
+  const {  roomName } = request.params;
+  response.render('room', { roomName }); 
 });
 
 

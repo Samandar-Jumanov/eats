@@ -38,13 +38,14 @@ export const sockerServer = (io : Server ) => {
         })
         socket.on('leave-room' , ( roomName : string  , userName : string   ) =>{
             room.leaveRoom( roomName ,  userName  );
-        })
+        });
+
+        // Peer to peeer connection events 
+        
+
         socket.on('disconnect' , () =>{
               console.log(`${socket.id} is disconnected `);
         });
-
-
-
 
  });
  

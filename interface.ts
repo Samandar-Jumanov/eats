@@ -1,10 +1,9 @@
 interface RoomType {
-    users : string[]
-    adminId : string
-    admin : string
-    roomName : string 
-    usersCount : number 
+    users : string[];
+    adminId : string;
+    admin : string;
+    roomName : string;
+    usersCount : number;
 };
 
-
-export default  RoomType 
+export default  RoomType;
