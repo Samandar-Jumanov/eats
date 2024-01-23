@@ -32,9 +32,17 @@ export const sockerServer = (io : Server ) => {
             room.deleteRoom(data.roomName)
         });
 
+        socket.on("room-name " , (roomName : string ) =>{
+               const foundRoom = room.search(roomName);
+               return foundRoom;
+               
+        })
+
         socket.on('disconnect' , () =>{
               console.log(`${socket.id} is disconnected `);
         });
+
+
 
 
  });

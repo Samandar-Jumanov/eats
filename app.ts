@@ -35,9 +35,15 @@ app.get('/' , (request , response ) =>{
 app.get('/create-room' , (request , response ) =>{
     response.render('room-create')
 });
+
 app.get('/available-rooms' , (request , response ) =>{
       response.render('rooms-available')
-})
+});
+
+app.get('/:adminName/:roomName', (request, response) => {
+  const { adminName, roomName } = request.params;
+  response.render('room', { adminName, roomName }); 
+});
 
 
 mongoDBConnection();

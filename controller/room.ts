@@ -67,6 +67,10 @@ class Room {
             throw new Error('Room not found');
         }
     }
+
+    search(roomName: string) {
+        return this.rooms.find((room) => room.roomName === roomName);
+    }
 }
 
 export default Room;

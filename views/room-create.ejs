@@ -28,6 +28,8 @@ function createRoom() {
   const adminName = document.getElementById('adminName').value;
   const roomName = document.getElementById('roomName').value;
   socket.emit('create-room', { adminName, roomName });
+  window.location.assign(`${adminName}/${roomName}`);
+  console.log(adminName, roomName);
 }
 
 
