@@ -14,13 +14,20 @@
             </button>
     </div>
 
+    <script src="/socket.io/socket.io.js"></script>
     <script>
+      
+      const socket = io();
+      socket.on("me" , id =>{
+          window.localStorage.setItem("myId" , id)
+      });
       
       const button = document.getElementById('start-chat');
         button.addEventListener('click', () => {
            window.location.assign('create-room');
         });
 
+        
     </script>
 </body>
 </html>

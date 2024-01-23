@@ -40,9 +40,9 @@
         };
 
 
-        socket.on('get-offer' , ( message) =>{
-              const response =  confirm("Accept the user ");
-              socket.emit("answer" , response)
+        socket.on('get-offer' , ( message  ) =>{
+              const response =  confirm(message);
+              socket.emit("offer" , response)
         })
 
     </script>

@@ -1,12 +1,12 @@
 import { Socket , Server } from 'socket.io'
 import Room from '../controller/room'
 import RoomType from '../interface';
-export const sockerServer = (io: Server) => {
+export const socketServer = (io: Server) => {
     const room = new Room();
     const userSocketMap: Map<string, string> = new Map();
   
     io.on('connection', (socket: Socket) => {
-      console.log(`${socket.id} connected`);
+       socket.emit("Id" , socket.id)
         userSocketMap.set('userId', socket.id);
   
       socket.on('create-room', (data) => {
@@ -14,21 +14,24 @@ export const sockerServer = (io: Server) => {
       });
   
       socket.emit('rooms-available', room.rooms);
+  /// Join room process 
+
+  socket.on('join-room', (data) => {
+    const message = `${data.userName} wants to join your room yes/no`;
+    socket.to(data.roomAdminSocketId).emit('get-offer', { message, userName: data.userName });
+
+    // Listen for the response from the room admin
+    socket.on('offer-response', (response) => {
+        if (response.answer) {
+            room.joinToRoom(data.roomName, data.userName);
+        } else {
+            socket.emit('rejected', 'You are rejected to join that room');
+        }
+    });
+});
+
   
-      socket.on('join-room', (data) => {
-        const message = `${data.userName} wants to join your room yes/no`;
-        socket.emit('get-offer', message);
-      });
-  
-      
-      socket.on('ask', ( roomName : string ) => {
-        const message = `${socket.id} wants to join `;
-        socket.emit('get-offer', message);
-      });
-  
-      socket.on("answer" , ( data : boolean ) =>{
-           socket.emit("response" , data );
-      })
+    
       
       socket.emit('leave-room', (data: RoomType) => {
         room.deleteRoom(data.roomName);
@@ -45,7 +48,6 @@ export const sockerServer = (io: Server) => {
   
       socket.on('disconnect', () => {
         console.log(`${socket.id} is disconnected`);
-        // Call the removeUserOnDisconnect method to handle user disconnection
         room.removeUserOnDisconnect(socket.id);
       });
     });

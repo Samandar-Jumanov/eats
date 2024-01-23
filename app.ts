@@ -3,7 +3,7 @@ import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import mongoDBConnection from './utils/connect-mongo';
-import { sockerServer } from './controller/socket-server';
+import { socketServer } from './controller/socket-server';
 import  { ExpressPeerServer } from 'peer'
 const app = express();
 const server = http.createServer(app);
@@ -47,7 +47,7 @@ app.get('/room/:roomName', (request, response) => {
 
 
 mongoDBConnection();
-sockerServer(io);
+socketServer(io);
 
 
 
