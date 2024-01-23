@@ -54,8 +54,8 @@ class Room {
                  this.deleteRoom(roomName);
             }
         } else {
-            throw new Error('Room not found');
-        }
+             return `There is no room called ${roomName}`
+        };
     };
 
     deleteRoom(roomName: string) {
@@ -64,7 +64,7 @@ class Room {
         if (roomIndex !== -1) {
             this.rooms.splice(roomIndex, 1);
         } else {
-            throw new Error('Room not found');
+             return `There is no room called ${roomName}`
         }
     }
 
