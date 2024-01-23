@@ -10,7 +10,7 @@ export const sockerServer = (io : Server ) => {
 
 
         socket.on("create-room" , ( data  )=>{
-               room.createRoom( socket.id , data.adminName , data.roomName )
+               room.createRoom( data.roomName, data.adminName ,socket.id  )
         }); // room creation 
 
         socket.emit("rooms-available" , room.rooms); // shows roooms to user 
