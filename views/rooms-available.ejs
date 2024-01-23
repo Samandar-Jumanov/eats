@@ -28,25 +28,23 @@
                 li.textContent = room.roomName;
                 li.onclick = () => joinRoom(room.roomName);
                 roomsList.appendChild(li);
-                console.log(room.users)
             });
         });
 
         const createRoomPage = () => {
-            window.location.assign('create-room');
+            window.location.href = '/create-room'; 
         };
 
-
         const joinRoom = (roomName) => {
-            const userName = alert("Enter your name to join a room")
-            const data = {
-                 roomName ,
-                 userName 
+            const userName = prompt("Enter your name:"); 
+            if (userName) {
+                const data = {
+                    roomName,
+                    userName
+                };
+                socket.emit("join-room", data);
+                window.location.assign(`/room/${roomName}`);
             }
-
-            socket.emit("join-room" , data );
-
-
         };
     </script>
 </body>

@@ -24,14 +24,14 @@ app.use(cors({
 }));
 
 
-app.use('/' , express.static('public'))
+app.use( express.static('public'))
 app.set('view engine' , 'ejs');
 
-app.get('/' , (request , response ) =>{
+
+
+app.get('/' , ( request , response) =>{
     response.render('index')
-});
-
-
+})
 app.get('/create-room' , (request , response ) =>{
     response.render('room-create')
 });

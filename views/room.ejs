@@ -23,7 +23,7 @@
         socket.on('room-info', (roomInfo) => {
             const roomInfoDiv = document.getElementById('roomInfo');
             roomInfoDiv.innerHTML = `<p>Admin: ${roomInfo.admin}</p>`;
-            roomInfoDiv.innerHTML += `<p>Users count: ${roomInfo.users.length} are online now ! </p>`; 
+            // roomInfoDiv.innerHTML += `<p>Users count: ${roomInfo.users.length} are online now ! </p>`; 
         });
 
         socket.on('user-connected', (newUser) => {
@@ -43,6 +43,10 @@
         socket.on('get-offer' , ( message  ) =>{
               const response =  confirm(message);
               socket.emit("offer" , response)
+        });
+        
+        socket.on("Id" , id =>{
+              console.log(`My id is ${id}`)
         })
 
     </script>
