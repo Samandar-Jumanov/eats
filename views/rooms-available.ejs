@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rooms available </title>
+</head>
+<body>
+    
+    <div id="roomList">
+        <h2>Available Rooms</h2>
+        <ul id="rooms"></ul>
+      </div>
+    
+      <button onclick="createRoomPage()" > Create room  </button>
+
+      <script src="/socket.io/socket.io.js"></script>
+
+      <script>
+        const socket = io();
+
+        socket.on('rooms-available', (rooms) => {
+                const roomsList = document.getElementById('rooms');
+                roomsList.innerHTML = '';
+
+                rooms.forEach(room => {
+                    const li = document.createElement('li');
+                    li.textContent = room.roomName;
+                    roomsList.appendChild(li);
+                });
+});
+
+
+const createRoomPage = () =>{
+      window.location.assign('create-room')
+}
+
+function joinRoom() {
+  socket.emit('join-room', { userName, roomName: roomToJoin });
+};
+
+
+
+      </script>
+</body>
+</html>

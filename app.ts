@@ -35,6 +35,10 @@ app.get('/' , (request , response ) =>{
 app.get('/create-room' , (request , response ) =>{
     response.render('room-create')
 });
+app.get('/available-rooms' , (request , response ) =>{
+      response.render('rooms-available')
+})
+
 
 mongoDBConnection();
 sockerServer(io);
