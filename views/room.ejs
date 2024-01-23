@@ -1,12 +1,29 @@
+<!-- src/views/room.ejs -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Room</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Information</title>
 </head>
 <body>
-  <h1>Welcome to <%= roomName %> room</h1>
-  
+    <h1>Room Information for <%= roomName %></h1>
+
+    <div id="roomInfo">
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        
+        socket.emit('room', '<%= roomName %>');
+
+        socket.on('room-info', (roomInfo) => {
+            const roomInfoDiv = document.getElementById('roomInfo');
+            roomInfoDiv.innerHTML = `<p>Admin: ${roomInfo.admin}</p>`;
+            // roomInfoDiv.innerHTML = `<p>Admin: ${roomInfo.users}</p>`;
+        });
+    </script>
 </body>
 </html>
