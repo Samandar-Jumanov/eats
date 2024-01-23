@@ -1,5 +1,6 @@
 import { Socket , Server } from 'socket.io'
 import Room from '../controller/room'
+import RoomType from '../interface';
 
 export const sockerServer = (io : Server ) =>{
     const room = new Room();
@@ -10,14 +11,14 @@ export const sockerServer = (io : Server ) =>{
 
         socket.on("create-room" , ( data  )=>{
                room.createRoom( socket.id , data.adminName , data.roomName )
-        });
+        }); // room creation 
 
-        socket.emit("rooms-available" , room.rooms);
+        socket.emit("rooms-available" , room.rooms); // shows roooms to user 
 
         socket.on("join-room" , ( data ) =>{
             const message = `${data.userName } wants to join your room yes/no`
             socket.emit('get-offer' , message );
-        });
+        }); // join room 
 
         socket.on('offer' , ( answer : string ,  data  ) =>{
                 if(answer === 'yes'){
@@ -27,8 +28,8 @@ export const sockerServer = (io : Server ) =>{
                 }
         });
         
-        socket.emit('leave-room', ( data : [{}] ) =>{
-            
+        socket.emit('leave-room', ( data  : RoomType ) =>{
+            room.deleteRoom(data.roomName)
         });
 
         socket.on('disconnect' , () =>{

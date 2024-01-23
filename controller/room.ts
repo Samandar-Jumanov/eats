@@ -10,7 +10,7 @@ class Room {
              admin: roomAdmin ,
              users : [] ,
              roomName : roomName,
-             usersCount : 0 
+             usersCount : 0
             };
 
             this.rooms.push(newRoom);
@@ -23,7 +23,6 @@ class Room {
             room.users.push(newUser);
             room.usersCount++;
     }
-
     }
 
 
@@ -41,11 +40,13 @@ class Room {
             }
           };
          
-    }
+    };
 
-    deleteRoom(roomName: any ){
-         delete this.rooms[roomName]
-    }
+    deleteRoom(roomName : string ){
+         const room =  this.rooms.find(room => room.roomName === roomName );
+         delete room 
+
+    };
 
 }
 
