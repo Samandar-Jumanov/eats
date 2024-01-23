@@ -12,18 +12,37 @@
 
     <div id="roomInfo">
     </div>
+    <button onclick="leaveRoom()">Leave Room</button>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
         
         socket.emit('room', '<%= roomName %>');
+        let roomUsers = [];
 
         socket.on('room-info', (roomInfo) => {
             const roomInfoDiv = document.getElementById('roomInfo');
             roomInfoDiv.innerHTML = `<p>Admin: ${roomInfo.admin}</p>`;
-            // roomInfoDiv.innerHTML = `<p>Admin: ${roomInfo.users}</p>`;
+            roomInfoDiv.innerHTML += `<p>Users count: ${roomInfo.usersCount}</p>`; 
+            roomUsers = roomInfo.users;
+
+            // Display each room user on the HTML page
+            roomUsers.forEach((user) => {
+                const userElement = document.createElement('p');
+                userElement.textContent = `User: ${user}`;
+                roomInfoDiv.appendChild(userElement);
+            });
         });
+
+        const leaveRoom = () => {
+            const confirmLeave = confirm('Are you sure you want to leave the room?');
+            if (confirmLeave) {
+                socket.emit('leave-room', '<%= roomName %>', 'Samandar'); // Pass the userName to the server
+                window.location.assign('/')
+            }
+        };
+
     </script>
 </body>
 </html>

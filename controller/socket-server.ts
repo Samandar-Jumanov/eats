@@ -36,7 +36,9 @@ export const sockerServer = (io : Server ) => {
                const foundRoom = room.search(roomName);
               socket.emit("room-info" , foundRoom)
         })
-
+        socket.on('leave-room' , ( roomName : string  , userName : string   ) =>{
+            room.leaveRoom( roomName ,  userName  );
+        })
         socket.on('disconnect' , () =>{
               console.log(`${socket.id} is disconnected `);
         });

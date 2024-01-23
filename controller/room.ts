@@ -17,10 +17,10 @@ class Room {
             admin: roomAdmin,
             users: [],
             roomName,
-            usersCount: 0,
+            usersCount: 1,
         };
-
-        this.rooms.push(newRoom);
+          newRoom.users.push(roomAdmin);
+         this.rooms.push(newRoom);
         return true 
     }
 
@@ -51,7 +51,7 @@ class Room {
                     this.rooms.splice(roomIndex, 1);
                 }
             } else {
-                throw new Error('User is the admin or not found in the room');
+                 this.deleteRoom(roomName);
             }
         } else {
             throw new Error('Room not found');
