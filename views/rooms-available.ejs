@@ -3,44 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rooms available </title>
+    <title>Rooms available</title>
 </head>
 <body>
     
     <div id="roomList">
         <h2>Available Rooms</h2>
         <ul id="rooms"></ul>
-      </div>
+    </div>
     
-      <button onclick="createRoomPage()" > Create room  </button>
+    <button onclick="createRoomPage()">Create Room</button>
 
-      <script src="/socket.io/socket.io.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
-      <script>
+    <script>
         const socket = io();
 
         socket.on('rooms-available', (rooms) => {
-                const roomsList = document.getElementById('rooms');
-                roomsList.innerHTML = '';
+            const roomsList = document.getElementById('rooms');
+            roomsList.innerHTML = '';
 
-                rooms.forEach(room => {
-                    const li = document.createElement('li');
-                    li.textContent = room.roomName;
-                    roomsList.appendChild(li);
-                });
-});
+            rooms.forEach(room => {
+                const li = document.createElement('li');
+                li.textContent = room.roomName;
+                li.onclick = () => joinRoom(room.roomName);
+                roomsList.appendChild(li);
+                console.log(room.users)
+            });
+        });
 
+        const createRoomPage = () => {
+            window.location.assign('create-room');
+        }
 
-const createRoomPage = () =>{
-      window.location.assign('create-room')
-}
-
-function joinRoom() {
-  socket.emit('join-room', { userName, roomName: roomToJoin });
-};
-
-
-
-      </script>
+        const joinRoom = (roomName) => {
+            const userName = prompt('Enter your username:');
+            if (userName) {
+                socket.emit('join-room', { userName, roomName });
+            } else {
+                alert('Please enter a valid username.');
+            }
+            window.location.reload();
+            
+        };
+    </script>
 </body>
 </html>
