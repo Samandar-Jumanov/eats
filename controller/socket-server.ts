@@ -45,6 +45,7 @@ export const sockerServer = (io : Server ) => {
 
         socket.on('disconnect' , () =>{
               console.log(`${socket.id} is disconnected `);
+              room.removeUserOnDisconnect(socket.id);
         });
 
  });

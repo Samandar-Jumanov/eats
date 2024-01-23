@@ -68,6 +68,25 @@ class Room {
     search(roomName: string) {
         return this.rooms.find((room) => room.roomName === roomName);
     }
+
+    removeUserOnDisconnect(userId: string) {
+        const roomIndex = this.rooms.findIndex((room) => room.users.includes(userId));
+    
+        if (roomIndex !== -1) {
+          const room = this.rooms[roomIndex];
+          const userIndex = room.users.indexOf(userId);
+    
+          if (userIndex > -1) {
+            room.users.splice(userIndex, 1);
+            room.usersCount--;
+    
+            if (room.usersCount === 0) {
+              this.rooms.splice(roomIndex, 1);
+            }
+          }
+        }
+      }
+      
 }
 
 export default Room;
