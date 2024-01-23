@@ -17,32 +17,40 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-        
-        socket.emit('room', '<%= roomName %>');
         let roomUsers = [];
+
+        socket.emit('room', '<%= roomName %>');
 
         socket.on('room-info', (roomInfo) => {
             const roomInfoDiv = document.getElementById('roomInfo');
             roomInfoDiv.innerHTML = `<p>Admin: ${roomInfo.admin}</p>`;
             roomInfoDiv.innerHTML += `<p>Users count: ${roomInfo.usersCount}</p>`; 
             roomUsers = roomInfo.users;
+            updateUsersList();
+        });
 
-            // Display each room user on the HTML page
-            roomUsers.forEach((user) => {
-                const userElement = document.createElement('p');
-                userElement.textContent = `Users: ${user}`;
-                roomInfoDiv.appendChild(userElement);
-                console.log(user);
-            });
+        socket.on('user-connected', (newUser) => {
+            roomUsers.push(newUser);
+            updateUsersList();
         });
 
         const leaveRoom = () => {
             const confirmLeave = confirm('Are you sure you want to leave the room?');
             if (confirmLeave) {
-                socket.emit('leave-room', '<%= roomName %>', 'Samandar'); // Pass the userName to the server
-                window.location.assign('/')
+                socket.emit('leave-room', '<%= roomName %>', 'Samandar');
+                window.location.assign('/');
             }
         };
+
+        function updateUsersList() {
+            const roomInfoDiv = document.getElementById('roomInfo');
+            roomUsers.forEach((user) => {
+                const userElement = document.createElement('p');
+                userElement.textContent = `User: ${user}`;
+                roomInfoDiv.appendChild(userElement);
+                console.log(user);
+            });
+        }
 
     </script>
 </body>

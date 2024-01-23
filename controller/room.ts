@@ -26,13 +26,10 @@ class Room {
 
     joinToRoom(roomName: string, newUser: string) {
         const room = this.rooms.find((room) => room.roomName === roomName);
+         if(!room) return `Room with  such name : ${roomName} is undefined `;
+         room.users.push(newUser);
+         return "Succes";
 
-        if (room) {
-            room.users.push(newUser);
-            room.usersCount++;
-        } else {
-            throw new Error('Room not found');
-        }
     };
 
     leaveRoom(roomName: string, userName: string) {
