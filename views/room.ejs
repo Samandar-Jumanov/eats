@@ -17,16 +17,13 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-        let roomUsers = [];
 
         socket.emit('room', '<%= roomName %>');
 
         socket.on('room-info', (roomInfo) => {
             const roomInfoDiv = document.getElementById('roomInfo');
             roomInfoDiv.innerHTML = `<p>Admin: ${roomInfo.admin}</p>`;
-            roomInfoDiv.innerHTML += `<p>Users count: ${roomInfo.users.length}</p>`; 
-            roomUsers = roomInfo.users;
-            updateUsersList();
+            roomInfoDiv.innerHTML += `<p>Users count: ${roomInfo.users.length} are online now ! </p>`; 
         });
 
         socket.on('user-connected', (newUser) => {
@@ -41,16 +38,6 @@
                 window.location.assign('/');
             }
         };
-
-        function updateUsersList() {
-            const roomInfoDiv = document.getElementById('roomInfo');
-            roomUsers.forEach((user) => {
-                const userElement = document.createElement('p');
-                userElement.textContent = `User: ${user}`;
-                roomInfoDiv.appendChild(userElement);
-                console.log(user);
-            });
-        }
 
     </script>
 </body>
