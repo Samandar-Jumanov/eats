@@ -33,7 +33,7 @@ class Room {
         } else {
             throw new Error('Room not found');
         }
-    }
+    };
 
     leaveRoom(roomName: string, userName: string) {
         const roomIndex = this.rooms.findIndex((room) => room.roomName === roomName);

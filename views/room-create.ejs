@@ -1,22 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tal || Create room</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.io Chat</title>
+
 </head>
 <body>
-    
+  <div id="roomList">
+    <h2>Available Rooms</h2>
+    <ul id="rooms"></ul>
+  </div>
 
-<div class="main">
-    <div class="room">
-        <input type="text" placeholder="enter room name "  id="room-name"/>
-        <input type="text" placeholder="enter your name "  id="user-name"/>
-    </div>
-    
-    <button id="create-room-btn"> Create room</button>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/create-room.js"></script>
-</div>
+  <div id="createRoom">
+    <h2>Create Room</h2>
+    <input type="text" id="adminName" placeholder="Your Name">
+    <input type="text" id="roomName" placeholder="Room Name">
+    <button onclick="createRoom()">Create Room</button>
+  </div>
+
+  <div id="joinRoom">
+    <h2>Join Room</h2>
+    <input type="text" id="userName" placeholder="Your Name">
+    <input type="text" id="roomToJoin" placeholder="Room Name">
+    <button onclick="joinRoom()">Join Room</button>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+socket.on('rooms-available', (rooms) => {
+  const roomsList = document.getElementById('rooms');
+  roomsList.innerHTML = '';
+
+  rooms.forEach(room => {
+    const li = document.createElement('li');
+    li.textContent = room.roomName;
+    roomsList.appendChild(li);
+  });
+});
+
+function createRoom() {
+  const adminName = document.getElementById('adminName').value;
+  const roomName = document.getElementById('roomName').value;
+  socket.emit('create-room', { adminName, roomName });
+}
+
+function joinRoom() {
+  const userName = document.getElementById('userName').value;
+  const roomToJoin = document.getElementById('roomToJoin').value;
+  socket.emit('join-room', { userName, roomName: roomToJoin });
+};
+
+
+  </script>
 </body>
 </html>
