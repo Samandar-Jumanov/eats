@@ -4,6 +4,9 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import mongoDBConnection from './utils/connect-mongo';
 import { socketServer } from './controller/socket-server';
+import {ExpressPeerServer } from 'peer';
+
+
 
 const app = express();
 const server = http.createServer(app);
@@ -16,6 +19,12 @@ const io = new Server(server, {
 });
 
 
+const peerServer = ExpressPeerServer(server, {
+  proxied: true,
+  path: "/room/*",
+});
+
+
 app.use(cors({
   origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -25,7 +34,7 @@ app.use(cors({
 
 app.use( express.static('public'))
 app.set('view engine' , 'ejs');
-
+app.use('peerjs' , peerServer)
 
 
 app.get('/' , ( request , response) =>{
