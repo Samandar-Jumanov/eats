@@ -6,7 +6,7 @@ export const socketServer = (io: Server) => {
     const room = new Room();
     
     io.on('connection', (socket: Socket) => {
-       socket.emit("Id" , socket.id)
+       socket.emit("newUser" , socket.id)
       socket.on('create-room', (data) => {
         room.createRoom(data.roomName, data.adminName, socket.id);
       });

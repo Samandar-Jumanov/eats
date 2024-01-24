@@ -100,9 +100,22 @@
             });
         }
 
-        function updateUsersList() {
-            // Update your user list UI as needed
-        }
+          // Peer connections 
+
+          const peers = {};
+
+          socket.on("newUser" , (id) =>{
+            const peer = new SimplePeer({initiator : true })
+             peers[id]  = peer;
+
+             peer.on('signal', (data) => {
+               socket.emit('signal', data, id);
+             });
+          })
+
+          socket.on("answer" , ( data ) =>{
+            peers[data.id].signal(data.answer);
+          })
     </script>
 </body>
 </html>

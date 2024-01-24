@@ -4,7 +4,6 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import mongoDBConnection from './utils/connect-mongo';
 import { socketServer } from './controller/socket-server';
-import * as peer from 'simple-peer';
 
 const app = express();
 const server = http.createServer(app);
