@@ -22,9 +22,11 @@
     <button onclick="leaveRoom()">Leave Room</button>
 
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/node_modules/simple-peer/simplepeer.min.js"></script>
+
     <script>
         const socket = io();
-        const roomUsers = []; // Make sure you have a roomUsers array declared
+        const roomUsers = []; 
 
         socket.emit('room', '<%= roomName %>');
 
@@ -35,7 +37,6 @@
 
         socket.on('user-connected', (newUser) => {
             roomUsers.push(newUser);
-            updateUsersList();
         });
 
         const leaveRoom = () => {
@@ -51,11 +52,7 @@
             socket.emit("offer", response);
         });
 
-        socket.on("Id", (id) => {
-            console.log(`My id is ${id}`);
-        });
-
-        // Use navigator.mediaDevices.getUserMedia for modern browsers
+      
         navigator.mediaDevices.getUserMedia(
             { video: true, audio: true }
         )
@@ -65,7 +62,7 @@
                 localVideo.srcObject = stream;
             }
 
-            // Call the function to handle remote video streams
+           
             handleRemoteStreams();
         })
         .catch(error => {
@@ -79,7 +76,6 @@
                 const userIndex = roomUsers.findIndex(user => user.id === userId);
                 if (userIndex !== -1) {
                     roomUsers.splice(userIndex, 1);
-                    updateUsersList();
                 }
 
                 const videoElement = document.getElementById(`remote-video-${userId}`);
@@ -100,22 +96,15 @@
             });
         }
 
-          // Peer connections 
 
-          const peers = {};
+        const peer = new SimplePeer({ initiator : true });
+        peer.on("connect" , () =>{
+              console.log("connected");
+        })
+        
 
-          socket.on("newUser" , (id) =>{
-            const peer = new SimplePeer({initiator : true })
-             peers[id]  = peer;
 
-             peer.on('signal', (data) => {
-               socket.emit('signal', data, id);
-             });
-          })
 
-          socket.on("answer" , ( data ) =>{
-            peers[data.id].signal(data.answer);
-          })
     </script>
 </body>
 </html>
