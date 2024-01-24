@@ -5,7 +5,7 @@ class Room {
 
     constructor() {}
 
-    createRoom(roomName: string, roomAdmin: string, adminId: string) {
+    createRoom(roomName: string, roomAdmin: string) {
         const existingRoom = this.rooms.find((room) => room.roomName === roomName);
 
         if (existingRoom) {
@@ -13,7 +13,6 @@ class Room {
         }
 
         const newRoom: RoomType = {
-            adminId,
             admin: roomAdmin,
             users: [],
             roomName,

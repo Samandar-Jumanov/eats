@@ -20,6 +20,7 @@
         const socket = io();
 
         socket.on('rooms-available', (rooms) => {
+            console.log(rooms)
             const roomsList = document.getElementById('rooms');
             roomsList.innerHTML = '';
 
@@ -32,20 +33,22 @@
         });
 
         const createRoomPage = () => {
-            window.location.href = '/create-room';art
+            window.location.href = '/create-room';
         };
 
         const joinRoom = (roomName) => {
-            const userName = prompt("Enter your name:"); 
+            const userName = prompt("Enter your name:");
             if (userName) {
                 const data = {
                     roomName,
                     userName
                 };
+
                 socket.emit("join-room", data);
                 window.location.assign(`/room/${roomName}`);
             }
         };
+
     </script>
 </body>
 </html>
