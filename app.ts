@@ -4,7 +4,8 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import mongoDBConnection from './utils/connect-mongo';
 import { socketServer } from './controller/socket-server';
-import  { ExpressPeerServer } from 'peer'
+import * as peer from 'simple-peer';
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -15,7 +16,6 @@ const io = new Server(server, {
   },
 });
 
-const peerServer = ExpressPeerServer(server);
 
 app.use(cors({
   origin: '*',

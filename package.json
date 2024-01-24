@@ -22,12 +22,12 @@
     "mongoose": "^8.1.0",
     "morgan": "^1.10.0",
     "nodemon": "^3.0.2",
-    "peer": "^1.0.2",
     "simple-peer": "^9.11.1",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@types/mongoose": "^5.11.97",
+    "@types/simple-peer": "^9.11.8",
     "@types/socket.io": "^3.0.2",
     "socket.io": "^4.7.4",
     "typescript": "^5.3.3"

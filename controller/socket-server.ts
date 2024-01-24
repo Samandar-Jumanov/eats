@@ -32,6 +32,21 @@ export const socketServer = (io: Server) => {
       socket.on('leave-room', (roomName: string, userName: string) => {
         room.leaveRoom(roomName, userName);
       });
+
+      socket.on('offer', (data) => {
+        // Broadcast the offer to the other user
+        io.to(data.target).emit('offer', data.offer);
+      });
+    
+      socket.on('answer', (data) => {
+        // Broadcast the answer to the other user
+        io.to(data.target).emit('answer', data.answer);
+      });
+    
+      socket.on('ice-candidate', (data) => {
+        // Broadcast the ice candidate to the other user
+        io.to(data.target).emit('ice-candidate', data.candidate);
+      });
   
       socket.on('disconnect', () => {
         console.log(`${socket.id} is disconnected`);
