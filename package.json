@@ -23,7 +23,7 @@
     "morgan": "^1.10.0",
     "nodemon": "^3.0.2",
     "peer": "^1.0.2",
-    "sip.js": "^0.21.2",
+    "simple-peer": "^9.11.1",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {

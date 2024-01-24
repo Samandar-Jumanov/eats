@@ -12,18 +12,25 @@
 
     <div id="roomInfo">
     </div>
+    
+    <!-- Local video element -->
+    <video id="local-video" autoplay muted></video>
+    
+    <!-- Remote video elements -->
+    <div id="remote-videos"></div>
+    
     <button onclick="leaveRoom()">Leave Room</button>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
+        const roomUsers = []; // Make sure you have a roomUsers array declared
 
         socket.emit('room', '<%= roomName %>');
 
         socket.on('room-info', (roomInfo) => {
             const roomInfoDiv = document.getElementById('roomInfo');
             roomInfoDiv.innerHTML = `<p>Admin: ${roomInfo.admin}</p>`;
-            // roomInfoDiv.innerHTML += `<p>Users count: ${roomInfo.users.length} are online now ! </p>`; 
         });
 
         socket.on('user-connected', (newUser) => {
@@ -39,16 +46,63 @@
             }
         };
 
-
-        socket.on('get-offer' , ( message  ) =>{
-              const response =  confirm(message);
-              socket.emit("offer" , response)
+        socket.on('get-offer', (message) => {
+            const response = confirm(message);
+            socket.emit("offer", response);
         });
-        
-        socket.on("Id" , id =>{
-              console.log(`My id is ${id}`)
-        })
 
+        socket.on("Id", (id) => {
+            console.log(`My id is ${id}`);
+        });
+
+        // Use navigator.mediaDevices.getUserMedia for modern browsers
+        navigator.mediaDevices.getUserMedia(
+            { video: true, audio: true }
+        )
+        .then(stream => {
+            const localVideo = document.getElementById("local-video");
+            if (localVideo) {
+                localVideo.srcObject = stream;
+            }
+
+            // Call the function to handle remote video streams
+            handleRemoteStreams();
+        })
+        .catch(error => {
+            console.warn(error.message);
+        });
+
+        function handleRemoteStreams() {
+            const remoteVideosDiv = document.getElementById('remote-videos');
+
+            socket.on('user-disconnected', (userId) => {
+                const userIndex = roomUsers.findIndex(user => user.id === userId);
+                if (userIndex !== -1) {
+                    roomUsers.splice(userIndex, 1);
+                    updateUsersList();
+                }
+
+                const videoElement = document.getElementById(`remote-video-${userId}`);
+                if (videoElement) {
+                    videoElement.remove();
+                }
+            });
+
+            socket.on('stream', (user) => {
+                const videoElement = document.createElement('video');
+                videoElement.id = `remote-video-${user.id}`;
+                videoElement.autoplay = true;
+
+                const userStream = new MediaStream(user.stream);
+                videoElement.srcObject = userStream;
+
+                remoteVideosDiv.appendChild(videoElement);
+            });
+        }
+
+        function updateUsersList() {
+            // Update your user list UI as needed
+        }
     </script>
 </body>
 </html>
