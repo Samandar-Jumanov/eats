@@ -22,13 +22,19 @@
   <script>
     const socket = io();
 
-
-
 function createRoom() {
   const adminName = document.getElementById('adminName').value;
   const roomName = document.getElementById('roomName').value;
+
   socket.emit('create-room', { adminName, roomName });
-  window.location.assign(`room/${roomName}`);
+  socket.on("answer" , ( answer) =>{
+      if(answer == 1){
+            window.location.assign(`room/${roomName}`);
+      }else {
+        alert(" Room cannot be created ");
+      }
+   
+  })
   console.log(adminName, roomName);
 }
 
