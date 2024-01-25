@@ -1,33 +1,37 @@
+// server.ts
 import { Socket, Server } from 'socket.io';
-import RoomType from '../interface';
-/*
-* create room 
-* leave room 
-* delete room 
-* join room 
-* users in room 
-*/
 
 export const socketServer = (io: Server) => {
-
   io.on('connection', (socket: Socket) => {
-      console.log('a user connected');
+    console.log('A user connected');
 
-      socket.on('createRoom', (roomName : string ) => {
-        socket.rooms.add(roomName);
-        console.log("a new room created  ");
-        console.log(socket.rooms.values())
-      });
+    socket.on('createRoom', (roomName: string) => {
+      socket.join(roomName);
+      console.log('A new room created: ', roomName);
+    });
 
+    socket.on('joinRoom', (roomName: string) => {
+      socket.join(roomName);
+      console.log('User joined room: ', roomName);
+    });
 
-      socket.on('joinRoom', (roomName : string ) => {
-        socket.join(roomName);
-      });
+    socket.on('leaveRoom', (roomName: string) => {
+      socket.leave(roomName);
+      console.log('User left room: ', roomName);
+    });
 
-      socket.on('leaveRoom', (roomName : string ) => {
-        socket.leave(roomName);
-      });
-
-      socket.emit("available-rooms" , Object.values(socket.rooms.values()))
+    socket.on('availableRoomsCheck', () => {
+      emitAvailableRooms(socket);
+    });
   });
+};
+
+function emitAvailableRooms(socket: Socket) {
+  const rooms = getAvailableRooms(socket);
+  socket.emit('available-rooms', rooms);
+}
+
+function getAvailableRooms(socket: Socket): string[] {
+  // Convert the Set of rooms to an array
+  return Array.from(socket.rooms.values());
 }

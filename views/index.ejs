@@ -7,33 +7,34 @@
     <link rel="stylesheet" href="./style/style.css">
 </head>
 <body>
-  
-    <button onclick="createRoom()"> Create room </button>
-    <button onclick="joinRoom()"> Join room</button>
-    <button onclick="availlableRooms()">Available rooms</button>
+    <button onclick="createRoom()">Create room</button>
+    <button onclick="joinRoom()">Join room</button>
+    <button onclick="availableRooms()">Available rooms</button>
 
-    <dv id="availableRoomsList"></dv>
-   <script src="/socket.io/socket.io.js"></script>
-   <script>
-      const socket = io();
+    <div id="availableRoomsList"></div>
 
-      // Listen for available rooms
-      function availlableRooms(){
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        function createRoom() {
+            socket.emit('createRoom', 'room1');
+            console.log('Create room event sent');
+        }
+
+        function joinRoom() {
+            socket.emit('joinRoom', 'room1');
+            console.log('Join room event sent');
+        }
+
+        function availableRooms() {
+            console.log('Checking available rooms...');
+            socket.emit('availableRoomsCheck');
+        }
+
         socket.on('available-rooms', (rooms) => {
-         updateAvailableRoomsList(rooms);
-         console.log(rooms);
-      });
-      }
-
-      function createRoom() {
-          socket.emit('createRoom', "room1");
-      }
-
-      function joinRoom() {
-          socket.emit('joinRoom', "room1");
-      }
-
-    
-   </script>
+            console.log('Available Rooms:', rooms);
+        });
+    </script>
 </body>
 </html>
