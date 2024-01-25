@@ -32,7 +32,8 @@
 
         socket.on('room-info', (roomInfo) => {
             const roomInfoDiv = document.getElementById('roomInfo');
-            roomInfoDiv.innerHTML = `<p>Admin: ${roomInfo.admin}</p>`;
+            console.log(roomInfo);
+            roomInfoDiv.innerHTML = `<p>Admin: ${roomInfo}</p>`;
         });
 
         socket.on('user-connected', (newUser) => {
@@ -47,10 +48,10 @@
             }
         };
 
-        socket.on('get-offer', (message) => {
-            const response = confirm(message);
-            socket.emit("offer", response);
-        });
+        // socket.on('get-offer', (message) => {
+        //     const response = confirm(message);
+        //     socket.emit("offer", response);
+        // });
 
       
         navigator.mediaDevices.getUserMedia(
@@ -97,10 +98,10 @@
         }
 
 
-        const peer = new SimplePeer({ initiator : true });
-        peer.on("connect" , () =>{
-              console.log("connected");
-        })
+        // const peer = new SimplePeer({ initiator : true });
+        // peer.on("connect" , () =>{
+        //       console.log("connected");
+        // })
         
 
 
