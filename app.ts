@@ -21,7 +21,7 @@ const io = new Server(server, {
 
 const peerServer = ExpressPeerServer(server, {
   proxied: true,
-  path: "/room/*",
+  path: "/",
 });
 
 
@@ -40,19 +40,6 @@ app.use('peerjs' , peerServer)
 app.get('/' , ( request , response) =>{
     response.render('index')
 })
-app.get('/create-room' , (request , response ) =>{
-    response.render('room-create')
-});
-
-app.get('/available-rooms' , (request , response ) =>{
-      response.render('rooms-available')
-});
-
-app.get('/room/:roomName', (request, response) => {
-  const {  roomName } = request.params;
-  response.render('room', { roomName }); 
-});
-
 
 mongoDBConnection();
 socketServer(io);

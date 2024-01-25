@@ -7,27 +7,62 @@
     <link rel="stylesheet" href="./style/style.css">
 </head>
 <body>
-    <h1>Welcome, start talking</h1>
-    <div class="button-container">
-            <button id="start-chat">
-                Start chatting
-            </button>
-    </div>
+   <div id="createRoom">
+      <h1>Create room</h1>
+      <form id="createRoomForm">
+         <label for="roomName">Room Name</label>
+         <input type="text" name="roomName" id="roomName">
+         <button type="button" onclick="createRoom()">Create Room</button>
+      </form>
+   </div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      
+   <div id="join-room">
+      <h1>Join room</h1>
+      <form id="joinRoomForm">
+         <label for="joinRoomName">Room Name</label>
+         <input type="text" name="joinRoomName" id="joinRoomName">
+         <button type="button" onclick="joinRoom()">Join Room</button>
+      </form>
+   </div>
+
+   <div>
+      <h1>Rooms available</h1>
+      <ul id="availableRoomsList"></ul>
+   </div>
+
+   <script src="/socket.io/socket.io.js"></script>
+   <script>
       const socket = io();
-      socket.on("me" , id =>{
-          window.localStorage.setItem("myId" , id)
-      });
-      
-      const button = document.getElementById('start-chat');
-        button.addEventListener('click', () => {
-           window.location.assign('create-room');
-        });
 
-        
-    </script>
+      // Listen for available rooms
+      socket.on('available-rooms', (rooms) => {
+         updateAvailableRoomsList(rooms);
+      });
+
+      function createRoom() {
+         const roomName = document.getElementById('roomName').value;
+         if (roomName.trim() !== '') {
+            socket.emit('createRoom', roomName);
+         }
+      }
+
+      function joinRoom() {
+         const roomName = document.getElementById('joinRoomName').value;
+         if (roomName.trim() !== '') {
+            socket.emit('joinRoom', roomName);
+         }
+      }
+
+      function updateAvailableRoomsList(rooms) {
+         const availableRoomsList = document.getElementById('availableRoomsList');
+         availableRoomsList.innerHTML = '';
+
+         rooms.forEach((room) => {
+            const li = document.createElement('li');
+            li.textContent = room;
+            availableRoomsList.appendChild(li);
+         });
+      }
+   </script>
 </body>
 </html>
