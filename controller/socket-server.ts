@@ -14,8 +14,11 @@ export const socketServer = (io: Server) => {
       console.log('a user connected');
 
       socket.on('createRoom', (roomName : string ) => {
-        socket.join(roomName);
+        socket.rooms.add(roomName);
+        console.log("a new room created  ");
+        console.log(socket.rooms.values())
       });
+
 
       socket.on('joinRoom', (roomName : string ) => {
         socket.join(roomName);
@@ -25,6 +28,6 @@ export const socketServer = (io: Server) => {
         socket.leave(roomName);
       });
 
-      socket.emit("available-rooms" , Object.keys(socket.rooms))
+      socket.emit("available-rooms" , Object.values(socket.rooms.values()))
   });
 }
