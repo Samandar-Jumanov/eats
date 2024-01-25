@@ -25,10 +25,10 @@ function createRoom() {
   const adminName = document.getElementById('adminName').value;
   const roomName = document.getElementById('roomName').value;
   window.localStorage.setItem("roomName" , roomName );
-  
   socket.emit('create-room', { adminName, roomName });
+
   socket.on("answer" , ( answer) =>{
-      if(answer == 1){
+      if(answer == true ){
             window.location.assign(`room/${roomName}`);
       }else {
         alert(" Room cannot be created ");
